@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Chat</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f4f4; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            flex-direction: column;
+        }
+        .chat-container {
+            width: 400px; 
+            background: white; 
+            padding: 15px; 
+            border-radius: 8px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h3 { text-align: center; }
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        #messages {
+            height: 300px; 
+            overflow-y: auto; 
+            border: 1px solid #ddd; 
+            padding: 10px; 
+            border-radius: 5px;
+            background: #fafafa;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            padding: 8px;
+            border-radius: 5px;
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .patient { background-color: #d1e7dd; align-self: flex-end; }
+        .doctor { background-color: #f8d7da; align-self: flex-start; }
+        .highlight { background-color: yellow !important; } /* Search highlight */
+        .timestamp { font-size: 0.8em; color: gray; margin-left: 10px; }
+        .chat-footer { display: flex; gap: 5px; margin-top: 10px; }
+        .actions { display: flex; gap: 5px; }
+        button { padding: 8px; border: none; border-radius: 5px; cursor: pointer; }
+        .send-btn { background: #28a745; color: white; }
+        .reply-btn { background: #007bff; color: white; }
+        .delete-btn { background: #dc3545; color: white; }
+        .edit-btn { background: #ffc107; color: black; }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <h3>Chat with Your Doctor</h3>
+
+        <label for="doctor-select">Select Doctor:</label>
+        <select id="doctor-select">
+            <option value="Dr. Smith">Dr. Smith</option>
+            <option value="Dr. Johnson">Dr. Johnson</option>
+            <option value="Dr. Williams">Dr. Williams</option>
+        </select>
+
+        <!-- Search Bar -->
+        <input type="text" id="search-input" placeholder="Search messages..." oninput="searchMessages()">
+
+        <div id="messages"></div>
+
+        <div class="chat-footer">
+            <input type="text" id="message-input" placeholder="Type a message..." />
+            <button class="send-btn" id="send-btn">Send</button>
+            <button class="reply-btn" id="reply-btn">Doctor Reply</button>
+        </div>
+    </div>
+
+    <script>
+        const chatPrefix = "healthcareChat_";
+
+        function getSelectedDoctor() {
+            return document.getElementById("doctor-select").value;
+        }
+
+        function getChatKey() {
+            return chatPrefix + getSelectedDoctor();
+        }
+
+        function getCurrentTimestamp() {
+            return new Date().toLocaleString();
+        }
+
+        function loadMessages() {
+            const messagesDiv = document.getElementById("messages");
+            messagesDiv.innerHTML = "";
+            const messages = JSON.parse(localStorage.getItem(getChatKey())) || [];
+
+            messages.forEach((msg, index) => {
+                const messageDiv = document.createElement("div");
+                messageDiv.className = "message " + msg.sender;
+                messageDiv.dataset.index = index;
+
+                const textSpan = document.createElement("span");
+                textSpan.innerText = msg.text;
+
+                const timestampSpan = document.createElement("span");
+                timestampSpan.className = "timestamp";
+                timestampSpan.innerText = msg.timestamp;
+
+                const actionsDiv = document.createElement("div");
+                actionsDiv.className = "actions";
+
+                const editBtn = document.createElement("button");
+                editBtn.className = "edit-btn";
+                editBtn.innerText = "Edit";
+                editBtn.onclick = () => editMessage(index);
+
+                const deleteBtn = document.createElement("button");
+                deleteBtn.className = "delete-btn";
+                deleteBtn.innerText = "Delete";
+                deleteBtn.onclick = () => deleteMessage(index);
+
+                actionsDiv.appendChild(editBtn);
+                actionsDiv.appendChild(deleteBtn);
+
+                messageDiv.appendChild(textSpan);
+                messageDiv.appendChild(timestampSpan);
+                messageDiv.appendChild(actionsDiv);
+                messagesDiv.appendChild(messageDiv);
+            });
+
+            searchMessages(); // Reapply search highlighting
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function sendMessage(sender) {
+            const input = document.getElementById("message-input");
+            const messageText = input.value.trim();
+            if (!messageText) return;
+
+            const messages = JSON.parse(localStorage.getItem(getChatKey())) || [];
+            messages.push({ sender, text: messageText, timestamp: getCurrentTimestamp() });
+            localStorage.setItem(getChatKey(), JSON.stringify(messages));
+
+            input.value = "";
+            loadMessages();
+        }
+
+        function editMessage(index) {
+            const messages = JSON.parse(localStorage.getItem(getChatKey())) || [];
+            const newText = prompt("Edit your message:", messages[index].text);
+            if (newText) {
+                messages[index].text = newText;
+                localStorage.setItem(getChatKey(), JSON.stringify(messages));
+                loadMessages();
+            }
+        }
+
+        function deleteMessage(index) {
+            const messages = JSON.parse(localStorage.getItem(getChatKey())) || [];
+            messages.splice(index, 1);
+            localStorage.setItem(getChatKey(), JSON.stringify(messages));
+            loadMessages();
+        }
+
+        function searchMessages() {
+            const searchTerm = document.getElementById("search-input").value.toLowerCase();
+            document.querySelectorAll("#messages .message").forEach(messageDiv => {
+                messageDiv.classList.remove("highlight");
+                if (searchTerm) {
+                    const messageText = messageDiv.querySelector("span").innerText.toLowerCase();
+                    if (messageText.includes(searchTerm)) {
+                        messageDiv.classList.add("highlight");
+                    }
+                }
+            });
+        }
+
+        document.getElementById("send-btn").addEventListener("click", () => sendMessage("patient"));
+        document.getElementById("reply-btn").addEventListener("click", () => sendMessage("doctor"));
+        document.getElementById("doctor-select").addEventListener("change", loadMessages);
+
+        loadMessages();
+    </script>
+
+</body>
+</html>

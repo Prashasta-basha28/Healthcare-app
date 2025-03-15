@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messaging</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Healthcare App</h2>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="appointments.html">Appointments</a></li>
+                    <li><a href="medications.html">Medications</a></li>
+                    <li><a href="messaging.html" class="active">Messaging</a></li>
+                    <li><a href="health_tracking.html">Health Tracking</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="messaging">
+            <header>
+                <h1>Messaging</h1>
+            </header>
+
+            <section class="chat-box">
+                <ul id="message-list"></ul>
+            </section>
+
+            <section class="message-input">
+                <input type="text" id="message-text" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </section>
+        </main>
+    </div>
+
+    <script src="messaging.js"></script>
+</body>
+</html>

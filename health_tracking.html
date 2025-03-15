@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Tracking</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Healthcare App</h2>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="appointments.html">Appointments</a></li>
+                    <li><a href="medications.html">Medications</a></li>
+                    <li><a href="messaging.html">Messaging</a></li>
+                    <li><a href="health_tracking.html" class="active">Health Tracking</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="health-tracking">
+            <header>
+                <h1>Health Tracking</h1>
+            </header>
+
+            <section class="health-inputs">
+                <h3>Enter Your Health Data</h3>
+                <input type="text" id="bp" placeholder="Blood Pressure (e.g., 120/80)">
+                <input type="text" id="weight" placeholder="Weight (kg)">
+                <input type="text" id="glucose" placeholder="Glucose Level (mg/dL)">
+                <button onclick="saveHealthData()">Save Data</button>
+            </section>
+
+            <section class="health-summary">
+                <h3>Latest Health Data</h3>
+                <p>Blood Pressure: <span id="latest-bp">Not Available</span></p>
+                <p>Weight: <span id="latest-weight">Not Available</span></p>
+                <p>Glucose Level: <span id="latest-glucose">Not Available</span></p>
+            </section>
+        </main>
+    </div>
+
+    <script src="health_tracking.js"></script>
+</body>
+</html>

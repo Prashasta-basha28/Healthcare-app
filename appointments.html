@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Scheduling</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Healthcare App</h2>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="medications.html">Medications</a></li>
+                    <li><a href="appointments.html" class="active">Appointments</a></li>
+                    <li><a href="#">Messaging</a></li>
+                    <li><a href="#">Health Tracking</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="appointments">
+            <header>
+                <h1>Appointment Scheduling</h1>
+            </header>
+            
+            <section class="appointment-list">
+                <h3>Upcoming Appointments</h3>
+                <ul id="appointment-list"></ul>
+            </section>
+
+            <section class="add-appointment">
+                <h3>Schedule New Appointment</h3>
+                <input type="text" id="doctor-name" placeholder="Doctor's Name">
+                <input type="date" id="appointment-date">
+                <input type="time" id="appointment-time">
+                <button onclick="addAppointment()">Schedule</button>
+            </section>
+        </main>
+    </div>
+    <script src="appointments.js"></script>
+</body>
+</html>

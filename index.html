@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare App Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Healthcare App</h2>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="medications.html">Medications</a></li>
+                    <li><a href="appointments.html">Appointments</a></li>
+                    <li><a href="messaging.html">Messaging</a></li>
+                    <li><a href="health_tracking.html">Health Tracking</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="dashboard">
+            <header>
+                <h1>Dashboard</h1>
+                <div class="profile">
+                    <span>Welcome, User</span>
+                </div>
+            </header>
+            
+            <section class="cards">
+                <div class="card">
+                    <h3>Today's Medications</h3>
+                    <ul id="medication-list"></ul>
+                </div>
+                <div class="card">
+                    <h3>Upcoming Appointments</h3>
+                    <ul id="appointment-list"></ul>
+                </div>
+                <div class="card">
+                    <h3>Recent Messages</h3>
+                    <ul id="message-list"></ul>
+                </div>
+            </section>
+
+            <section class="dashboard-widgets">
+                <div class="widget">
+                    <h3>Next Appointment</h3>
+                    <p id="next-medication">Loading...</p>
+                </div>
+            </section>
+
+            <section class="quick-actions">
+                <h3>Quick Actions</h3>
+                <button onclick="location.href='Appointments.html'">Schedule Appointment</button>
+                <button onclick="location.href='medications.html'">Add Medication</button>
+            </section>
+
+            <section class="health-stats">
+                <h3>Health Stats</h3>
+                <p>Blood Pressure: <span id="bp">Not Available</span></p>
+                <p>weight: <span id="weight">Not Available</span></p>
+                <p>Glucose Level: <span id="glucose">Not Available</span></p>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
